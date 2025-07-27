@@ -6,39 +6,44 @@ class Solution:
         output = {}
 
         map_nums = {}
+        ls = []
 
         for i in nums:
             if(not(i in map_nums)):
                 map_nums[i] = 0
+                ls.append(i)
             map_nums[i] += 1
-        print(map_nums)
         
-        for i in range(0,len(nums)):
+        i = 0
+        for key in map_nums:
+            
+            x = key
 
-            x = nums[i]
-            for j in range(i+1,len(nums)):
-                
-                y = nums[j]
+            if(key == 0 and map_nums[0] >= 3):
+                output[0,0,0] =  1
+            
+            for j in range(i+1,len(ls)):
+
+                y = ls[j]
                 z = (x+y)*-1
                 
-                list_xyz = [x,y,z]
+                list_xyz =  [x,y,z]
                 list_xyz.sort()
+                
+                if(z in map_nums and (list_xyz[0],list_xyz[1],list_xyz[2]) not in output):
 
-                if(z in map_nums and ((list_xyz[0],list_xyz[1],list_xyz[2]) not in output)):
-
-                    if(((x == y or x == z) and (map_nums[x] < 2)) or (y == z and map_nums[y] < 2)):
-                       continue
-                    elif(x == y and x == z and map_nums[x] < 3):
+                    if((x == z and map_nums[x] < 2) or (y == z and map_nums[y] < 2)):
                         continue
-                    
-                    output[list_xyz[0],list_xyz[1],list_xyz[2]] = 1
-        
-        ls = []
-        keys = list(output.keys())
-        for i in keys:
-            ls.append(list(i))
 
-        return ls
+                    output[list_xyz[0],list_xyz[1],list_xyz[2]] = 1
+                
+            i += 1  
+
+        list_output = []
+        for key in output:
+            list_output.append(list(key))
+                  
+        return list_output
     
 
 s = Solution()
